@@ -1,0 +1,46 @@
+# ═══════════════════════════════════════════════════════════════════
+#  ~/.bashrc — DevForge Bash Configuration
+#  Managed by DevForge macOS Setup
+# ═══════════════════════════════════════════════════════════════════
+
+# Non-interactive shell: exit immediately
+case $- in
+  *i*) ;;
+    *) return ;;
+esac
+
+# ── System profiles ───────────────────────────────────────────────
+[[ -f /etc/bashrc ]] && source /etc/bashrc
+
+# ── History ───────────────────────────────────────────────────────
+HISTCONTROL=ignoreboth
+shopt -s histappend
+HISTSIZE=10000
+HISTFILESIZE=20000
+
+# ── Window resize ─────────────────────────────────────────────────
+shopt -s checkwinsize
+
+# ── Aliases ───────────────────────────────────────────────────────
+alias lsa='ls -AF'
+alias l='ls -alhF'
+alias ll='ls -lhF'
+alias la='ls -AlhF'
+
+[[ -f "${HOME}/.bash_aliases" ]] && source "${HOME}/.bash_aliases"
+
+# ── Bash completion ───────────────────────────────────────────────
+if ! shopt -oq posix; then
+  if [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]]; then
+    source "/opt/homebrew/etc/profile.d/bash_completion.sh"
+  elif [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]]; then
+    source "/usr/local/etc/profile.d/bash_completion.sh"
+  elif [[ -f "/usr/share/bash-completion/bash_completion" ]]; then
+    source "/usr/share/bash-completion/bash_completion"
+  elif [[ -f "/etc/bash_completion" ]]; then
+    source "/etc/bash_completion"
+  fi
+fi
+
+# ── Always source ~/.bash_profile ─────────────────────────────────
+[[ -f "${HOME}/.bash_profile" ]] && source "${HOME}/.bash_profile"

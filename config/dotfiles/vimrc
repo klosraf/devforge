@@ -1,0 +1,17 @@
+" DevForge minimal .vimrc
+set nocompatible
+set number relativenumber
+set tabstop=2 shiftwidth=2 expandtab
+set ignorecase smartcase
+set incsearch hlsearch
+set clipboard=unnamed
+set mouse=a
+set undofile
+syntax on
+filetype plugin indent on
+" Leader
+let mapleader = " "
+" Basic keymaps
+nnoremap <leader>w :write<CR>
+nnoremap <leader>q :quit<CR>
+nnoremap <Esc> :nohlsearch<CR>

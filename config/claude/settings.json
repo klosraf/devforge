@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+
+  "env": {
+    "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "64000",
+    "CLAUDE_CODE_TMPDIR": "/tmp/claude-code",
+    "DISABLE_BUG_COMMAND": "1",
+    "DISABLE_ERROR_REPORTING": "1",
+    "DISABLE_TELEMETRY": "1"
+  },
+
+  "outputStyle": "Explanatory",
+  "effortLevel": "high",
+  "autoUpdatesChannel": "stable",
+  "plansDirectory": "./.claude/plans",
+
+  "permissions": {
+    "allow": [
+      "Bash(arch)", "Bash(base64 *)", "Bash(bash -n *)",
+      "Bash(bat *)", "Bash(bc *)", "Bash(bc)",
+      "Bash(brew deps*)", "Bash(brew info*)", "Bash(brew list*)",
+      "Bash(cargo --version*)", "Bash(cargo check*)", "Bash(cargo clippy*)",
+      "Bash(cargo doc --no-deps*)", "Bash(cargo fmt*)", "Bash(cargo info *)",
+      "Bash(cargo locate-project*)", "Bash(cargo metadata*)", "Bash(cargo pkgid*)",
+      "Bash(cargo read-manifest*)", "Bash(cargo search *)", "Bash(cargo tree*)",
+      "Bash(cargo verify-project*)", "Bash(cargo version*)",
+      "Bash(cat *)", "Bash(clang --version*)", "Bash(clang-format *)",
+      "Bash(cloc *)", "Bash(cloc)", "Bash(cmake --version*)",
+      "Bash(colordiff *)", "Bash(column *)", "Bash(cut *)",
+      "Bash(date *)", "Bash(date)", "Bash(delta *)",
+      "Bash(df *)", "Bash(df)", "Bash(diff *)", "Bash(diff)",
+      "Bash(docker compose config*)", "Bash(docker compose logs*)",
+      "Bash(docker compose ps*)", "Bash(docker compose version*)",
+      "Bash(docker history*)", "Bash(docker images*)", "Bash(docker info*)",
+      "Bash(docker inspect*)", "Bash(docker logs*)", "Bash(docker network ls*)",
+      "Bash(docker port*)", "Bash(docker ps*)", "Bash(docker stats*)",
+      "Bash(docker top*)", "Bash(docker version*)", "Bash(docker volume ls*)",
+      "Bash(du *)", "Bash(du)", "Bash(duf *)", "Bash(duf)",
+      "Bash(echo *)", "Bash(env)", "Bash(envsubst *)", "Bash(exiftool *)",
+      "Bash(eza *)", "Bash(eza)", "Bash(fd *)", "Bash(fd)",
+      "Bash(file *)", "Bash(find *)", "Bash(free *)", "Bash(free)",
+      "Bash(g++ --version*)", "Bash(gcc --version*)",
+      "Bash(gh alias list*)", "Bash(gh api*)", "Bash(gh cache list*)",
+      "Bash(gh config get*)", "Bash(gh config list*)", "Bash(gh extension list*)",
+      "Bash(gh gist list*)", "Bash(gh gist view*)",
+      "Bash(gh issue list*)", "Bash(gh issue status*)", "Bash(gh issue view*)",
+      "Bash(gh label list*)", "Bash(gh pr checks*)", "Bash(gh pr diff*)",
+      "Bash(gh pr list*)", "Bash(gh pr review*)", "Bash(gh pr status*)",
+      "Bash(gh pr view*)", "Bash(gh release list*)", "Bash(gh release view*)",
+      "Bash(gh repo list*)", "Bash(gh repo view*)",
+      "Bash(gh run list*)", "Bash(gh run view*)", "Bash(gh run watch*)",
+      "Bash(gh search *)", "Bash(gh status)",
+      "Bash(gh workflow list*)", "Bash(gh workflow view*)",
+      "Bash(git -C * blame*)", "Bash(git -C * diff*)", "Bash(git -C * fetch*)",
+      "Bash(git -C * grep*)", "Bash(git -C * log*)", "Bash(git -C * ls-tree*)",
+      "Bash(git -C * merge-base *)", "Bash(git -C * rev-parse*)",
+      "Bash(git -C * save*)", "Bash(git -C * shortlog*)", "Bash(git -C * show*)",
+      "Bash(git -C * stash list*)", "Bash(git -C * stash show*)",
+      "Bash(git -C * status*)",
+      "Bash(git blame*)", "Bash(git diff*)", "Bash(git fetch*)",
+      "Bash(git grep*)", "Bash(git log*)", "Bash(git ls-tree*)",
+      "Bash(git merge-base *)", "Bash(git rev-parse*)", "Bash(git save*)",
+      "Bash(git shortlog*)", "Bash(git show*)", "Bash(git stash list*)",
+      "Bash(git stash show*)", "Bash(git status*)",
+      "Bash(grep *)", "Bash(head *)", "Bash(hostname)", "Bash(hyperfine *)",
+      "Bash(id *)", "Bash(id)", "Bash(jq *)", "Bash(jq)",
+      "Bash(ls *)", "Bash(ls)", "Bash(lsof *)", "Bash(lsof)",
+      "Bash(make build)", "Bash(make install)", "Bash(make lint)", "Bash(make test)",
+      "Bash(mypy*)", "Bash(netstat *)", "Bash(netstat)",
+      "Bash(nproc)", "Bash(pgrep *)", "Bash(ping *)",
+      "Bash(pip check*)", "Bash(pip freeze*)", "Bash(pip list*)", "Bash(pip show*)",
+      "Bash(pip3 check*)", "Bash(pip3 freeze*)", "Bash(pip3 list*)", "Bash(pip3 show*)",
+      "Bash(pkg-config *)", "Bash(pre-commit run*)",
+      "Bash(pre-commit validate-config*)", "Bash(pre-commit validate-manifest*)",
+      "Bash(prettier *)", "Bash(printenv *)", "Bash(printenv)",
+      "Bash(ps *)", "Bash(ps)", "Bash(pwd)",
+      "Bash(pytest*)", "Bash(python3 --version*)", "Bash(python3 -m ast *)",
+      "Bash(python3 -m compileall *)", "Bash(python3 -m dis *)",
+      "Bash(python3 -m json.tool *)", "Bash(python3 -m mypy*)",
+      "Bash(python3 -m pip check*)", "Bash(python3 -m pip freeze*)",
+      "Bash(python3 -m pip list*)", "Bash(python3 -m pip show*)",
+      "Bash(python3 -m pytest*)", "Bash(python3 -m ruff check*)",
+      "Bash(python3 -m ruff format*)", "Bash(python3 -m site)",
+      "Bash(python3 -m sysconfig)",
+      "Bash(readlink *)", "Bash(realpath *)", "Bash(rg *)", "Bash(rg)",
+      "Bash(ruff check*)", "Bash(ruff format*)", "Bash(ruff version*)",
+      "Bash(rustc --explain *)", "Bash(rustc --print *)", "Bash(rustc --version*)",
+      "Bash(rustfmt*)", "Bash(rustup component list*)", "Bash(rustup show*)",
+      "Bash(rustup target list*)", "Bash(rustup toolchain list*)",
+      "Bash(sed -n *)", "Bash(shasum *)", "Bash(shellcheck *)", "Bash(shfmt *)",
+      "Bash(stat *)", "Bash(sw_vers*)", "Bash(sysctl *)",
+      "Bash(tail *)", "Bash(tree *)", "Bash(tree)",
+      "Bash(type *)", "Bash(uname *)", "Bash(uname)",
+      "Bash(uniq *)", "Bash(uniq)", "Bash(uptime)",
+      "Bash(uv cache dir*)", "Bash(uv pip check*)", "Bash(uv pip freeze*)",
+      "Bash(uv pip list*)", "Bash(uv pip show*)", "Bash(uv python find*)",
+      "Bash(uv python list*)", "Bash(uv tool list*)", "Bash(uv tree*)",
+      "Bash(uv version*)", "Bash(wc *)", "Bash(wc)",
+      "Bash(which *)", "Bash(whoami)", "Bash(xxd *)",
+      "WebSearch"
+    ],
+    "ask": [
+      "Bash(gh issue close*)", "Bash(gh issue comment*)", "Bash(gh issue create*)",
+      "Bash(gh issue edit*)", "Bash(gh pr close*)", "Bash(gh pr comment*)",
+      "Bash(gh pr create*)", "Bash(gh pr edit*)", "Bash(gh pr merge*)",
+      "Bash(gh pr ready*)", "Bash(gh workflow run*)",
+      "Bash(git -C * add*)", "Bash(git -C * commit*)", "Bash(git -C * merge *)",
+      "Bash(git -C * mv*)", "Bash(git -C * pull*)", "Bash(git -C * rebase*)",
+      "Bash(git -C * reset*)", "Bash(git -C * restore*)", "Bash(git -C * rm*)",
+      "Bash(git -C * stash*)", "Bash(git -C * switch*)",
+      "Bash(git add*)", "Bash(git commit*)", "Bash(git merge *)",
+      "Bash(git mv*)", "Bash(git pull*)", "Bash(git rebase*)",
+      "Bash(git reset*)", "Bash(git restore*)", "Bash(git rm*)",
+      "Bash(git stash*)", "Bash(git switch*)",
+      "Bash(sed -i*)"
+    ],
+    "deny": [
+      "Bash(git -C * push*)",
+      "Bash(git push*)"
+    ],
+    "defaultMode": "acceptEdits"
+  },
+
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'cd \"${CLAUDE_PROJECT_DIR}\" && mkdir -p .claude/plans && [[ ! -e .claude/.gitignore ]] && printf \"%s\\n\" \".gitignore\" \"plans/\" \"*.local.*\" \"*.session\" \"*.log\" > .claude/.gitignore || true'"
+          },
+          {
+            "type": "command",
+            "command": "bash -c 'cd \"${CLAUDE_PROJECT_DIR}\" && git config alias.save \"! cd -- \\\"\\${GIT_PREFIX:-.}\\\"; message=\\\"\\$*\\\"; message=\\\"\\${message#\\\"\\${message%%[![:space:]]*}\\\"}\\\"; case \\\"\\${message}\\\" in \\\"\\\") message=\\\"wip\\\" ;; wip:*|WIP:*|\\\\[wip\\\\]*|\\\\[WIP\\\\]*) ;; *) message=\\\"wip: \\${message}\\\" ;; esac; git add --all && git diff --cached --quiet || git commit -m \\\"\\${message}\\\"; :\" || true'"
+          },
+          {
+            "type": "command",
+            "command": "bash -c 'cd \"${CLAUDE_PROJECT_DIR}\" && [[ -e .pre-commit-config.yaml ]] && HOOK_PATH=\"$(git rev-parse --git-path hooks/pre-commit 2>/dev/null)\" && [[ -n \"${HOOK_PATH}\" ]] && [[ ! -e \"${HOOK_PATH}\" ]] && { if command -v pre-commit >/dev/null 2>&1; then pre-commit install; elif command -v uvx >/dev/null 2>&1; then uvx pre-commit install; fi; } || true'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'cd \"${CLAUDE_PROJECT_DIR}\" && FILE_PATH=\"$(jq -r \".tool_input.file_path // empty\")\" && [[ -n \"${FILE_PATH}\" ]] && [[ \"${FILE_PATH}\" == *.py || \"${FILE_PATH}\" == *.pyi ]] && [[ -x \"$(command -v ruff)\" ]] && ruff check --fix --ignore=F401 \"${FILE_PATH}\" && ruff format \"${FILE_PATH}\" || true'"
+          }
+        ]
+      }
+    ]
+  }
+}

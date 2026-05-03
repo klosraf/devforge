@@ -1,0 +1,106 @@
+# ═══════════════════════════════════════════════════════════════════
+#  ~/.gitconfig — DevForge Git Configuration
+#  Managed by DevForge macOS Setup
+#  Fill in your [user] name and email before use.
+# ═══════════════════════════════════════════════════════════════════
+
+[user]
+	name = Carlos Tamayo Ponce
+	email = sr.klosraf@gmail.com
+
+[core]
+	compression   = -1
+	excludesfile = /Users/klosraf/.gitignore_global
+	eol           = lf
+	autocrlf = input
+	editor = nvim
+	pager = delta
+
+[diff]
+	tool      = vimdiff
+	guitool   = gvimdiff
+	algorithm = histogram
+	colorMoved = default
+
+[difftool]
+	prompt = false
+
+[merge]
+	tool    = vimdiff
+	guitool = gvimdiff
+	conflictstyle = diff3
+
+[mergetool]
+	prompt = false
+
+[http]
+	postBuffer = 524288000
+
+[init]
+	defaultBranch = main
+
+[pull]
+	ff = only
+	rebase = true
+
+[fetch]
+	prune = true
+	parallel = 0
+
+[submodule]
+	recurse   = true
+	fetchJobs = 0
+
+[filter "lfs"]
+	clean   = git-lfs clean -- %f
+	smudge  = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[color]
+	ui = true
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true
+	dark         = true
+	line-numbers = true
+	light = false
+	side-by-side = true
+
+[alias]
+	# List ignored files
+	list-ignored = "! cd -- \"${GIT_PREFIX:-.}\" && git ls-files -v \"${1:-.}\" | sed -n -e \"s,^[a-z] \\(.*\\)\\$,${GIT_PREFIX:-./}\\1,p\" && git status --ignored --porcelain \"${1:-.}\" 2>/dev/null | sed -n -e \"s/^\\(\\!\\! \\)\\(.*\\)$/\\2/p\";"
+
+	# Configure push remote separate from pull remote
+	config-push-remote = "! cd -- \"${GIT_PREFIX:-.}\" && GIT_BRANCH=\"${1:-\"$(git branch --show-current)\"}\" && git config branch.\"${GIT_BRANCH}\".remote upstream; git config branch.\"${GIT_BRANCH}\".pushremote origin;"
+
+	# Diff against upstream
+	diff-remote      = diff @{upstream}
+	diff-push-remote = "! cd -- \"${GIT_PREFIX:-.}\"; GIT_BRANCH=\"$(git branch --show-current)\"; GIT_PUSH_REMOTE=\"$(git config --get branch.\"${GIT_BRANCH}\".pushremote || git config --get branch.\"${GIT_BRANCH}\".remote || echo \"origin\")\"; GIT_PUSH_REF=\"$(git rev-parse --abbrev-ref @{push} 2>/dev/null || echo \"${GIT_PUSH_REMOTE}/${GIT_BRANCH}\")\"; git diff \"${GIT_PUSH_REF}\""
+
+	# Sync from remote, optionally push to origin
+	sync-remote = "! cd -- \"${GIT_PREFIX:-.}\"; git status --porcelain && (GIT_CURRENT_BRANCH=\"$(git branch --show-current)\"; GIT_BRANCH=\"${1:-\"${GIT_CURRENT_BRANCH}\"}\"; GIT_REMOTE=\"$(git remote show | grep -E \"^upstream$\" || echo \"origin\")\"; [ \"${GIT_CURRENT_BRANCH}\" != \"${GIT_BRANCH}\" ] && git checkout \"${GIT_BRANCH}\"; git fetch --all --tags --prune --force --jobs=16; git pull --ff-only \"${GIT_REMOTE}\" \"${GIT_BRANCH}\"; [ \"${GIT_REMOTE}\" != \"origin\" ] && git push origin \"${GIT_BRANCH}:${GIT_BRANCH}\"; [ \"${GIT_CURRENT_BRANCH}\" != \"${GIT_BRANCH}\" ] && git checkout \"${GIT_CURRENT_BRANCH}\")"
+
+	# Stage only non-trailing-whitespace changes
+	add-non-eolws-changes = "! cd -- \"${GIT_PREFIX:-.}\"; git diff --no-color --unified=0 --ignore-submodules=all --ignore-space-at-eol | git apply --cached --allow-empty --unidiff-zero --ignore-space-change --whitespace=nowarn -"
+
+	# Quick WIP commit
+	save = "! cd -- \"${GIT_PREFIX:-.}\"; message=\"$*\"; message=\"${message#\"${message%%[![:space:]]*}\"}\"; case \"${message}\" in \"\") message=\"wip\" ;; wip:*|WIP:*|\\[wip\\]*|\\[WIP\\]*) ;; *) message=\"wip: ${message}\" ;; esac; git add --all && git diff --cached --quiet || git commit -m \"${message}\"; :"
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	st = status -sb
+	co = checkout
+	br = branch -vv
+	df = diff
+	dc = diff --cached
+	undo = reset --soft HEAD~1
+	last = log -1 HEAD
+	contributors = shortlog --summary --numbered
+[rerere]
+	enabled = true
+[rebase]
+	autoStash = true
+[push]
+	autoSetupRemote = true

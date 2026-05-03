@@ -1,0 +1,343 @@
+# ─────────────────────────────────────────────────────────────────
+#  Brewfile — DevForge macOS Setup
+#  Run: brew bundle --file=config/Brewfile
+# ─────────────────────────────────────────────────────────────────
+
+# Taps
+tap "homebrew/bundle"
+tap "homebrew/cask-fonts"
+tap "homebrew/cask-versions"
+tap "nikitabobko/tap"
+tap "oven-sh/bun"
+tap "mongodb/brew"
+
+# ── Core ──────────────────────────────────────────────────────────
+brew "git"
+brew "git-lfs"
+brew "curl"
+brew "wget"
+brew "openssh"
+brew "gnupg"
+brew "pinentry-mac"
+brew "coreutils"
+brew "moreutils"
+brew "findutils"
+brew "gnu-sed"
+brew "gawk"
+brew "grep"
+brew "gzip"
+brew "xz"
+brew "p7zip"
+brew "unzip"
+brew "pigz"
+brew "jq"
+brew "yq"
+brew "fx"
+
+# ── Modern CLI ────────────────────────────────────────────────────
+brew "ripgrep"
+brew "fd"
+brew "fzf"
+brew "bat"
+brew "eza"
+brew "delta"
+brew "dust"
+brew "duf"
+brew "bottom"
+brew "procs"
+brew "hyperfine"
+brew "tldr"
+brew "btop"
+brew "glow"
+brew "tree"
+brew "watch"
+brew "direnv"
+brew "entr"
+brew "mkcert"
+brew "age"
+brew "sops"
+brew "gh"
+brew "lazygit"
+brew "gitui"
+brew "tokei"
+brew "zoxide"
+brew "atuin"
+brew "starship"
+brew "thefuck"
+brew "peco"
+brew "sk"
+brew "just"
+brew "navi"
+brew "zellij"
+brew "tmux"
+
+# ── Build tools ────────────────────────────────────────────────────
+brew "cmake"
+brew "ninja"
+brew "autoconf"
+brew "automake"
+brew "libtool"
+brew "pkg-config"
+brew "openssl"
+brew "libffi"
+brew "readline"
+brew "zlib"
+brew "ncurses"
+brew "sqlite"
+brew "bzip2"
+brew "ccache"
+
+# ── Languages ─────────────────────────────────────────────────────
+brew "node"
+brew "python@3.13"
+brew "python@3.12"
+brew "uv"
+brew "rye"
+brew "pyenv"
+brew "rbenv"
+brew "ruby-build"
+brew "go"
+brew "kotlin"
+brew "scala"
+brew "openjdk@21"
+brew "openjdk@17"
+brew "maven"
+brew "gradle"
+brew "php"
+brew "composer"
+brew "lua"
+brew "luarocks"
+brew "r"
+brew "julia"
+brew "perl"
+brew "bash"
+brew "zig"
+brew "dart"
+brew "erlang"
+brew "elixir"
+brew "ghc"
+brew "stack"
+brew "shellcheck"
+brew "shfmt"
+brew "mise"
+
+# ── Compilers ────────────────────────────────────────────────────
+brew "llvm"
+brew "gcc"
+brew "clang-format"
+brew "cppcheck"
+
+# ── WebAssembly ──────────────────────────────────────────────────
+brew "wasmtime"
+brew "wasm-pack"
+brew "wasm-tools"
+
+# ── DevOps ───────────────────────────────────────────────────────
+brew "docker"
+brew "docker-compose"
+brew "colima"
+brew "kubectl"
+brew "kubectx"
+brew "helm"
+brew "k9s"
+brew "kind"
+brew "terraform"
+brew "terragrunt"
+brew "ansible"
+brew "vault"
+brew "consul"
+brew "skaffold"
+brew "kustomize"
+brew "buf"
+brew "protobuf"
+brew "grpc"
+
+# ── Cloud ────────────────────────────────────────────────────────
+brew "awscli"
+brew "azure-cli"
+brew "doctl"
+
+# ── Databases ────────────────────────────────────────────────────
+brew "postgresql@16"
+brew "mysql"
+brew "redis"
+brew "sqlite"
+brew "mongodb-community"
+brew "mongosh"
+
+# ── Security ─────────────────────────────────────────────────────
+brew "nmap"
+brew "trivy"
+brew "grype"
+brew "syft"
+brew "gitleaks"
+brew "semgrep"
+
+# ── Media ────────────────────────────────────────────────────────
+brew "ffmpeg"
+brew "imagemagick"
+brew "ghostscript"
+brew "exiftool"
+
+# ── Editors ──────────────────────────────────────────────────────
+brew "neovim"
+brew "vim"
+brew "helix"
+brew "tree-sitter"
+brew "lua-language-server"
+brew "marksman"
+brew "taplo"
+
+# ── Fonts ─────────────────────────────────────────────────────────
+cask "font-jetbrains-mono-nerd-font"
+cask "font-fira-code-nerd-font"
+cask "font-cascadia-code-nerd-font"
+cask "font-geist-mono-nerd-font"
+cask "font-monaspace-nerd-font"
+cask "font-victor-mono-nerd-font"
+cask "font-iosevka-nerd-font"
+cask "font-symbols-only-nerd-font"
+cask "font-maple-mono-nf"
+cask "font-commit-mono-nerd-font"
+cask "font-inter"
+
+# ── Terminals ─────────────────────────────────────────────────────
+cask "ghostty"
+cask "wezterm"
+cask "tabby"
+cask "warp"
+cask "iterm2"
+
+# ── Code Editors & IDEs ───────────────────────────────────────────
+cask "visual-studio-code"
+cask "cursor"
+cask "zed"
+cask "jetbrains-toolbox"
+
+# ── Browsers ──────────────────────────────────────────────────────
+cask "arc"
+cask "firefox"
+cask "chromium"
+
+# ── Design ───────────────────────────────────────────────────────
+cask "figma"
+cask "inkscape"
+
+# ── Database GUIs ─────────────────────────────────────────────────
+cask "tableplus"
+cask "dbeaver-community"
+
+# ── API Tools ────────────────────────────────────────────────────
+cask "httpie"
+cask "insomnia"
+
+# ── Utilities ─────────────────────────────────────────────────────
+cask "raycast"
+cask "rectangle"
+cask "1password"
+cask "bitwarden"
+cask "stats"
+cask "the-unarchiver"
+cask "appcleaner"
+cask "obsidian"
+cask "vlc"
+cask "obs"
+
+# ── AI ────────────────────────────────────────────────────────────
+cask "ollama"
+
+# ── Window management ────────────────────────────────────────────
+cask "nikitabobko/tap/aerospace"
+
+# ── QuickLook plugins ────────────────────────────────────────────
+cask "qlcolorcode"
+cask "qlstephen"
+cask "qlmarkdown"
+cask "quicklook-json"
+cask "quicklook-csv"
+cask "syntax-highlight"
+
+# ── Mac App Store ─────────────────────────────────────────────────
+brew "mas"
+# mas "Xcode",                  id: 497799835
+# mas "Swift Playgrounds",      id: 1496833156
+# mas "WireGuard",              id: 1451685025
+
+# ── Modern CLI (Rust/Go replacements) ─────────────────────────────
+brew "eza"            # modern ls
+brew "bat"            # modern cat
+brew "fd"             # modern find
+brew "ripgrep"        # modern grep
+brew "fzf"            # fuzzy finder
+brew "zoxide"         # smarter cd
+brew "broot"          # tree navigator
+brew "dust"           # modern du
+brew "duf"            # modern df
+brew "bottom"         # modern top (btm)
+brew "procs"          # modern ps
+brew "sd"             # modern sed
+brew "xh"             # modern HTTP client (Rust)
+brew "hyperfine"      # benchmarking
+brew "ouch"           # compression/decompression
+brew "gitui"          # TUI for git
+brew "just"           # modern make/task runner
+brew "mprocs"         # multi-process runner
+brew "gum"            # Charm TUI toolkit
+brew "mcfly"          # smart shell history
+brew "tealdeer"       # fast tldr
+brew "atuin"          # shell history in SQLite
+brew "navi"           # interactive cheatsheets
+brew "lolcat"         # colorize output
+brew "pastel"         # color tool
+brew "jless"          # JSON pager
+brew "fx"             # JSON viewer
+brew "jo"             # JSON builder
+brew "htmlq"          # HTML query tool
+brew "miller"         # data processing
+brew "miniserve"      # quick HTTP server
+brew "grex"           # regex generator
+brew "onefetch"       # git repo info
+brew "fastfetch"      # modern neofetch
+brew "tokei"          # code statistics
+brew "lnav"           # log viewer
+brew "mosh"           # mobile shell
+brew "xh"             # Rust HTTP client
+brew "doggo"          # DNS query tool
+brew "age"            # modern encryption
+brew "sops"           # secrets management
+
+# ── Dotfiles Management ────────────────────────────────────────────
+brew "chezmoi"        # dotfiles manager
+brew "stow"           # symlink manager
+brew "mackup"         # app settings backup
+brew "yadm"           # git-based dotfiles
+brew "dockutil"       # Dock management CLI
+
+# ── AI & LLM ──────────────────────────────────────────────────────
+cask "ollama"         # local LLM runtime
+cask "lm-studio"      # local LLM GUI
+cask "jan"            # privacy-first local AI
+cask "anythingllm"    # local RAG workspace
+
+# ── Extra Casks ───────────────────────────────────────────────────
+cask "maccy"          # clipboard manager
+cask "brave-browser"  # privacy browser
+cask "orbstack"       # fast Docker/VM runtime
+cask "utm"            # virtual machines
+cask "redisinsight"   # Redis GUI
+cask "beekeeper-studio" # database GUI
+cask "iina"           # media player
+cask "stats"          # system stats menu bar
+cask "procexplorer"   # process monitor
+cask "logseq"         # knowledge management
+cask "amethyst"       # tiling window manager
+cask "imageoptim"     # image optimizer
+cask "handbrake"      # video converter
+
+# ── More Developer Fonts ───────────────────────────────────────────
+cask "font-monaspace-nerd-font"
+cask "font-commit-mono-nerd-font"
+cask "font-geist-mono-nerd-font"
+cask "font-maple-mono-nerd-font"
+cask "font-victor-mono-nerd-font"
+cask "font-symbols-only-nerd-font"

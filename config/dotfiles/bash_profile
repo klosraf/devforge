@@ -1,0 +1,50 @@
+# ═══════════════════════════════════════════════════════════════════
+#  ~/.bash_profile — DevForge Bash Login Profile
+#  Managed by DevForge macOS Setup
+# ═══════════════════════════════════════════════════════════════════
+
+# ── System profile ────────────────────────────────────────────────
+[[ -f /etc/profile ]] && source /etc/profile
+
+# ── User bin ─────────────────────────────────────────────────────
+[[ -d "${HOME}/.local/bin" ]] && export PATH="${HOME}/.local/bin${PATH:+:"${PATH}"}"
+
+# ── Homebrew ─────────────────────────────────────────────────────
+if [[ -x "/opt/homebrew/bin/brew" ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -x "/usr/local/bin/brew" ]]; then
+  eval "$(/usr/local/bin/brew shellenv)"
+fi
+
+# ── Environment ──────────────────────────────────────────────────
+export TERM="xterm-256color"
+export LANG="en_US.UTF-8"
+export LC_ALL="${LANG}"
+export LESS="-R -M -i -j5"
+export CLICOLOR=1
+
+# ── Go ───────────────────────────────────────────────────────────
+export GOPATH="${GOPATH:-"${HOME}/.go"}"
+export GOBIN="${GOBIN:-"${GOPATH}/bin"}"
+export PATH="${GOBIN}${PATH:+:"${PATH}"}"
+
+# ── Rust ─────────────────────────────────────────────────────────
+[[ -f "${HOME}/.cargo/env" ]] && source "${HOME}/.cargo/env"
+
+# ── Claude Code ──────────────────────────────────────────────────
+export CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY="1"
+export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1"
+export CLAUDE_CODE_EFFORT_LEVEL="high"
+export CLAUDE_CODE_MAX_OUTPUT_TOKENS="64000"
+export CLAUDE_CODE_TMPDIR="/tmp/claude-code"
+export DISABLE_BUG_COMMAND="1"
+export DISABLE_ERROR_REPORTING="1"
+export DISABLE_TELEMETRY="1"
+
+# ── DevForge utilities ────────────────────────────────────────────
+[[ -f "${HOME}/.devforge/utilities.sh" ]] && source "${HOME}/.devforge/utilities.sh"
+
+# ── Interactive shell: source .bashrc ─────────────────────────────
+[[ -n "${PS1}" && -f "${HOME}/.bashrc" ]] && source "${HOME}/.bashrc"
+export PATH=$PATH:$HOME/.maestro/bin
+export PATH=$PATH:$HOME/.maestro/bin

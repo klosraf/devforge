@@ -1,0 +1,50 @@
+name: "📦 Module Request / Solicitud de Módulo"
+description: Request a new installation module / Solicitar un nuevo módulo de instalación
+labels: ["new-module", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## New Module Request / Solicitud de Nuevo Módulo
+        > **EN:** Suggest an entirely new module category for DevForge.
+        > **ES:** Sugiere una nueva categoría de módulo para DevForge.
+
+  - type: input
+    id: module_name
+    attributes:
+      label: Module name / Nombre del módulo
+      placeholder: "e.g. gaming, data-science, blockchain"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What would this module install? / ¿Qué instalaría este módulo?
+      description: List the tools, apps, and configurations it would set up.
+      placeholder: |
+        - Tool A (brew install tool-a)
+        - Tool B (npm install -g tool-b)
+        - Config file for Tool A
+    validations:
+      required: true
+
+  - type: textarea
+    id: audience
+    attributes:
+      label: Target audience / Audiencia objetivo
+      placeholder: |
+        EN: e.g. "Data scientists who use Python, Jupyter, and ML frameworks"
+        ES: ej. "Científicos de datos que usan Python, Jupyter y frameworks de ML"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform / Plataforma
+      multiple: true
+      options:
+        - macOS only
+        - Linux only
+        - Both / Ambos

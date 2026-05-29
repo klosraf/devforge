@@ -38,7 +38,7 @@ jobs:
             exit 1
           fi
 
-      - name: Check version doesn't already exist
+      - name: Check version does not already exist
         run: |
           VERSION="${{ inputs.version }}"
           if git tag -l "v${VERSION}" | grep -q .; then
@@ -58,29 +58,39 @@ jobs:
           DATE=$(date -u +%Y-%m-%d)
           PREV_TAG=$(git tag --sort=-version:refname | head -1)
 
-          NEW_SECTION="## [${VERSION}] — ${DATE}
-
-### Added
-- <!-- describe new features -->
-
-### Changed
-- <!-- describe changes -->
-
-### Fixed
-- <!-- describe bug fixes -->
-
----"
-
           LINK="[${VERSION}]: https://github.com/klosraf/devforge/compare/${PREV_TAG}...v${VERSION}"
 
-          # Insert new section after the first --- separator
-          awk -v section="$NEW_SECTION" '
-            /^---$/ && !inserted { print; print ""; print section; inserted=1; next }
-            { print }
-          ' CHANGELOG.md > CHANGELOG.md.tmp
-          mv CHANGELOG.md.tmp CHANGELOG.md
+          python3 - << PYEOF
+          import re, sys
 
-          # Append comparison link
+          version = "${VERSION}"
+          date = "${DATE}"
+
+          new_section = f"""## [{version}] — {date}
+
+          ### Added
+          - <!-- describe new features -->
+
+          ### Changed
+          - <!-- describe changes -->
+
+          ### Fixed
+          - <!-- describe bug fixes -->
+
+          ---
+          """
+
+          with open("CHANGELOG.md", "r") as f:
+              content = f.read()
+
+          # Insert after first "---" separator line
+          content = re.sub(r"^---$", "---\n\n" + new_section, content, count=1, flags=re.MULTILINE)
+          content += f"\n{version}: https://github.com/klosraf/devforge/compare/${PREV_TAG}...v${VERSION}\n"
+
+          with open("CHANGELOG.md", "w") as f:
+              f.write(content)
+          PYEOF
+
           echo "" >> CHANGELOG.md
           echo "$LINK" >> CHANGELOG.md
 
@@ -89,7 +99,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Create release branch
+      - name: Create release branch and push
         run: |
           VERSION="${{ inputs.version }}"
           BRANCH="release/v${VERSION}"
@@ -101,21 +111,26 @@ jobs:
       - name: Create Pull Request
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ inputs.version }}
+          TYPE: ${{ inputs.release_type }}
         run: |
-          VERSION="${{ inputs.version }}"
-          TYPE="${{ inputs.release_type }}"
+          PR_BODY=$(cat << BODY_EOF
+          ## Release v${VERSION} (${TYPE})
+
+          ### Checklist
+          - [ ] CHANGELOG.md entries filled in
+          - [ ] \`install.sh\` version matches tag
+          - [ ] ShellCheck passes
+          - [ ] Tested on macOS locally
+          - [ ] Tested on Linux locally
+
+          **To publish:** merge this PR, then create tag \`v${VERSION}\` from main.
+          BODY_EOF
+          )
+
           gh pr create \
             --title "chore(release): v${VERSION}" \
-            --body "## Release v${VERSION} (${TYPE})
-
-  ### Checklist
-  - [ ] CHANGELOG.md entries filled in
-  - [ ] \`install.sh\` version matches tag
-  - [ ] ShellCheck passes
-  - [ ] Tested on macOS locally
-  - [ ] Tested on Linux locally
-
-  **To publish:** merge this PR, then create tag \`v${VERSION}\` from main." \
+            --body "$PR_BODY" \
             --base main \
             --head "release/v${VERSION}" \
             --label "release"

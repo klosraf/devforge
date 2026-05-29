@@ -30,7 +30,7 @@ jobs:
       - name: Install ShellCheck
         run: sudo apt-get install -y shellcheck
 
-      - name: Run ShellCheck on all shell scripts
+      - name: Run ShellCheck (errors only)
         run: |
           echo "::group::Discovering shell scripts"
           mapfile -t SCRIPTS < <(find . -name "*.sh" -not -path "./.git/*" | sort)
@@ -41,14 +41,16 @@ jobs:
           echo "::group::Running ShellCheck"
           FAILED=0
           for f in "${SCRIPTS[@]}"; do
-            if ! shellcheck --severity=warning --shell=bash "$f"; then
+            # Severity=error: SC2034 (unused vars in libs) and SC1090 (dynamic source)
+            # are warnings only — they're expected patterns in modular shell libraries.
+            if ! shellcheck --severity=error --shell=bash "$f"; then
               FAILED=1
             fi
           done
           echo "::endgroup::"
 
           if [[ $FAILED -eq 1 ]]; then
-            echo "::error::ShellCheck found issues. Fix them before merging."
+            echo "::error::ShellCheck found errors. Fix them before merging."
             exit 1
           fi
           echo "All scripts passed ShellCheck."

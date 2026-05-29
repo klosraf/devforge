@@ -1,0 +1,61 @@
+name: "✨ Feature Request / Solicitud de Función"
+description: Suggest a new feature or improvement / Sugerir una nueva función o mejora
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > **EN:** Have an idea for DevForge? We'd love to hear it!
+        > **ES:** ¿Tienes una idea para DevForge? ¡Nos encantaría escucharla!
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area / Área
+      options:
+        - New tool in existing module / Nueva herramienta en módulo existente
+        - New module / Nuevo módulo
+        - TUI / User interface / Interfaz de usuario
+        - Linux support / Soporte Linux
+        - Config management / Gestión de configuración
+        - CI / Testing
+        - Documentation / Documentación
+        - Performance / Rendimiento
+        - Other / Otro
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or motivation / Problema o motivación
+      placeholder: |
+        EN: e.g. "There's no way to set up a Rust cross-compilation toolchain automatically..."
+        ES: ej. "No hay forma de configurar automáticamente un toolchain de compilación cruzada para Rust..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution / Solución propuesta
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered / Alternativas consideradas
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform / Plataforma
+      multiple: true
+      options:
+        - macOS (Apple Silicon)
+        - macOS (Intel)
+        - Linux (Ubuntu/Debian)
+        - Linux (Fedora)
+        - Linux (Arch/Manjaro)
+        - All platforms / Todas las plataformas

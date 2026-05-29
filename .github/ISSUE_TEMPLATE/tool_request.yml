@@ -1,0 +1,71 @@
+name: "🔧 Tool Request / Solicitud de Herramienta"
+description: Request adding a specific tool to an existing module / Solicitar añadir una herramienta a un módulo existente
+labels: ["new-tool", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Tool Addition Request / Solicitud de Adición de Herramienta
+        > **EN:** Request adding a specific tool to an existing DevForge module.
+        > **ES:** Solicita añadir una herramienta específica a un módulo existente de DevForge.
+
+  - type: input
+    id: tool_name
+    attributes:
+      label: Tool name / Nombre de la herramienta
+      placeholder: "e.g. uv, starship, atuin"
+    validations:
+      required: true
+
+  - type: input
+    id: tool_url
+    attributes:
+      label: Tool URL / URL de la herramienta
+      placeholder: "https://github.com/..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: module
+    attributes:
+      label: Target module / Módulo destino
+      options:
+        - core
+        - languages
+        - frameworks
+        - editors
+        - terminal
+        - macos
+        - apps
+        - ai
+        - dotfiles
+        - ios
+        - android
+        - New module needed / Se necesita nuevo módulo
+    validations:
+      required: true
+
+  - type: dropdown
+    id: install_method
+    attributes:
+      label: Install method / Método de instalación
+      options:
+        - brew install
+        - brew install --cask
+        - npm install -g
+        - cargo install
+        - pip install
+        - curl / manual
+        - Other / Otro
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why should this be included? / ¿Por qué debería incluirse?
+      placeholder: |
+        EN: e.g. "uv is a Rust-based Python package manager 10-100x faster than pip — it should replace pip in the languages module"
+        ES: ej. "uv es un gestor de paquetes Python basado en Rust 10-100x más rápido que pip — debería reemplazar pip en el módulo languages"
+    validations:
+      required: true

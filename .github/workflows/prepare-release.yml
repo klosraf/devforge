@@ -1,0 +1,121 @@
+name: Prepare Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'New version (e.g. 4.2.0)'
+        required: true
+        type: string
+      release_type:
+        description: 'Release type'
+        required: true
+        default: patch
+        type: choice
+        options: [patch, minor, major]
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  prepare:
+    name: Prepare Release PR
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate version format
+        run: |
+          VERSION="${{ inputs.version }}"
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Version must be X.Y.Z — got '$VERSION'"
+            exit 1
+          fi
+
+      - name: Check version doesn't already exist
+        run: |
+          VERSION="${{ inputs.version }}"
+          if git tag -l "v${VERSION}" | grep -q .; then
+            echo "::error::Tag v${VERSION} already exists"
+            exit 1
+          fi
+
+      - name: Update version in install.sh
+        run: |
+          VERSION="${{ inputs.version }}"
+          sed -i "s/^readonly DEVFORGE_VERSION=\"[^\"]*\"/readonly DEVFORGE_VERSION=\"${VERSION}\"/" install.sh
+          grep 'DEVFORGE_VERSION=' install.sh | head -1
+
+      - name: Insert CHANGELOG section
+        run: |
+          VERSION="${{ inputs.version }}"
+          DATE=$(date -u +%Y-%m-%d)
+          PREV_TAG=$(git tag --sort=-version:refname | head -1)
+
+          NEW_SECTION="## [${VERSION}] — ${DATE}
+
+### Added
+- <!-- describe new features -->
+
+### Changed
+- <!-- describe changes -->
+
+### Fixed
+- <!-- describe bug fixes -->
+
+---"
+
+          LINK="[${VERSION}]: https://github.com/klosraf/devforge/compare/${PREV_TAG}...v${VERSION}"
+
+          # Insert new section after the first --- separator
+          awk -v section="$NEW_SECTION" '
+            /^---$/ && !inserted { print; print ""; print section; inserted=1; next }
+            { print }
+          ' CHANGELOG.md > CHANGELOG.md.tmp
+          mv CHANGELOG.md.tmp CHANGELOG.md
+
+          # Append comparison link
+          echo "" >> CHANGELOG.md
+          echo "$LINK" >> CHANGELOG.md
+
+      - name: Configure git
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create release branch
+        run: |
+          VERSION="${{ inputs.version }}"
+          BRANCH="release/v${VERSION}"
+          git checkout -b "$BRANCH"
+          git add install.sh CHANGELOG.md
+          git commit -m "chore(release): prepare v${VERSION}"
+          git push origin "$BRANCH"
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ inputs.version }}"
+          TYPE="${{ inputs.release_type }}"
+          gh pr create \
+            --title "chore(release): v${VERSION}" \
+            --body "## Release v${VERSION} (${TYPE})
+
+  ### Checklist
+  - [ ] CHANGELOG.md entries filled in
+  - [ ] \`install.sh\` version matches tag
+  - [ ] ShellCheck passes
+  - [ ] Tested on macOS locally
+  - [ ] Tested on Linux locally
+
+  **To publish:** merge this PR, then create tag \`v${VERSION}\` from main." \
+            --base main \
+            --head "release/v${VERSION}" \
+            --label "release"

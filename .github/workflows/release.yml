@@ -1,0 +1,160 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  validate:
+    name: Validate Release
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+      tag: ${{ steps.meta.outputs.tag }}
+      notes: ${{ steps.changelog.outputs.notes }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version metadata
+        id: meta
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG#v}"
+          echo "tag=$TAG"       >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Validate SemVer format
+        run: |
+          VERSION="${{ steps.meta.outputs.version }}"
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Tag must be vX.Y.Z — got '$VERSION'"
+            exit 1
+          fi
+
+      - name: Validate install.sh version matches tag
+        run: |
+          VERSION="${{ steps.meta.outputs.version }}"
+          SCRIPT_VER=$(grep 'DEVFORGE_VERSION=' install.sh | head -1 | grep -oP '[0-9]+\.[0-9]+\.[0-9]+')
+          if [[ "$SCRIPT_VER" != "$VERSION" ]]; then
+            echo "::error::install.sh DEVFORGE_VERSION ($SCRIPT_VER) ≠ tag ($VERSION)"
+            exit 1
+          fi
+
+      - name: Extract CHANGELOG notes
+        id: changelog
+        run: |
+          VERSION="${{ steps.meta.outputs.version }}"
+          NOTES=$(awk "/^## \[$VERSION\]/{found=1; next} found && /^## \[/{exit} found{print}" CHANGELOG.md)
+          if [[ -z "$NOTES" ]]; then
+            echo "::warning::No CHANGELOG entry found for $VERSION"
+            NOTES="See [CHANGELOG.md](CHANGELOG.md) for details."
+          fi
+          {
+            echo "notes<<RELEASE_NOTES_EOF"
+            echo "$NOTES"
+            echo "RELEASE_NOTES_EOF"
+          } >> "$GITHUB_OUTPUT"
+
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get install -y shellcheck
+      - run: find . -name "*.sh" -not -path "./.git/*" -exec shellcheck --severity=warning --shell=bash {} \;
+
+  package:
+    name: Build Release Tarball
+    runs-on: ubuntu-latest
+    needs: validate
+    outputs:
+      tarball: ${{ steps.build.outputs.tarball }}
+      checksum: ${{ steps.build.outputs.checksum }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build tarball
+        id: build
+        run: |
+          VERSION="${{ needs.validate.outputs.version }}"
+          TARBALL="devforge-${VERSION}.tar.gz"
+
+          tar -czf "$TARBALL" \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='*.code-workspace' \
+            --exclude='erl_crash.dump' \
+            --exclude='yarn.lock' \
+            install.sh lib/ modules/ config/ LICENSE README.md README.es.md
+
+          SHA256=$(sha256sum "$TARBALL" | awk '{print $1}')
+          echo "tarball=$TARBALL"  >> "$GITHUB_OUTPUT"
+          echo "checksum=$SHA256"  >> "$GITHUB_OUTPUT"
+          echo "SHA256: $SHA256"
+
+      - name: Upload tarball artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-tarball
+          path: ${{ steps.build.outputs.tarball }}
+
+  publish:
+    name: Publish GitHub Release
+    runs-on: ubuntu-latest
+    needs: [validate, shellcheck, package]
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download tarball
+        uses: actions/download-artifact@v4
+        with:
+          name: release-tarball
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.validate.outputs.tag }}
+          name: "DevForge ${{ needs.validate.outputs.tag }}"
+          body: |
+            ## What's Changed
+
+            ${{ needs.validate.outputs.notes }}
+
+            ---
+
+            ## 📦 Quick Install
+
+            ```bash
+            # Latest release (pinned)
+            curl -fsSL https://raw.githubusercontent.com/klosraf/devforge/${{ needs.validate.outputs.tag }}/install.sh | bash
+            ```
+
+            ## 🔒 Verify Checksum
+
+            ```bash
+            echo "${{ needs.package.outputs.checksum }}  devforge-${{ needs.validate.outputs.version }}.tar.gz" | sha256sum -c
+            ```
+
+            **Full Changelog:** https://github.com/klosraf/devforge/blob/${{ needs.validate.outputs.tag }}/CHANGELOG.md
+          files: |
+            devforge-${{ needs.validate.outputs.version }}.tar.gz
+          generate_release_notes: false
+          draft: false
+          prerelease: false
+          make_latest: true

@@ -1,0 +1,25 @@
+blank_issues_enabled: false
+changelog:
+  exclude:
+    labels: [ignore-for-release, duplicate, invalid, wontfix]
+  categories:
+    - title: "🚨 Breaking Changes"
+      labels: [breaking-change, semver-major]
+    - title: "✨ New Modules"
+      labels: [new-module]
+    - title: "🔧 New Tools Added"
+      labels: [new-tool, enhancement]
+    - title: "🐛 Bug Fixes"
+      labels: [bug, fix]
+    - title: "🖥️ Platform Support"
+      labels: [linux, macos, platform]
+    - title: "⚡ Performance"
+      labels: [performance]
+    - title: "🏗️ CI / Infrastructure"
+      labels: [ci, infrastructure, chore]
+    - title: "📖 Documentation"
+      labels: [documentation]
+    - title: "🔒 Security"
+      labels: [security]
+    - title: "🔧 Other Changes"
+      labels: ["*"]

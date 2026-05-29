@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "💬 Discussions / Discusiones"
+    url: https://github.com/klosraf/devforge/discussions
+    about: Ask questions, share setups, and connect with the community. / Haz preguntas, comparte setups y conecta con la comunidad.
+  - name: "🔒 Security Vulnerability / Vulnerabilidad"
+    url: https://github.com/klosraf/devforge/security/advisories/new
+    about: Report security issues privately. / Reporta vulnerabilidades de forma privada.
+  - name: "📖 Documentation / Documentación"
+    url: https://github.com/klosraf/devforge/blob/main/README.md
+    about: Read the full docs before opening an issue. / Lee la documentación antes de abrir un issue.
